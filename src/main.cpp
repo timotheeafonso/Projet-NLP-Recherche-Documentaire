@@ -1,10 +1,11 @@
 #include <iostream>
 #include "Document.hh"
+#include "Documents.hh"
 
 int main() {
-    Document doc = *new Document();
-    doc.parse("../AP/AP891216");;
-
+    Documents documents;
+    documents.parse("../AP/AP891216");
+    documents.print();
 
     return 0;
 }
