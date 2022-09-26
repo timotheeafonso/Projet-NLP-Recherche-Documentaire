@@ -1,6 +1,10 @@
 #include <iostream>
+#include "Document.hh"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Document doc = *new Document();
+    doc.parse("../AP/AP891216");;
+
+
     return 0;
 }
