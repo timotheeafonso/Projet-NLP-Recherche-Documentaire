@@ -25,13 +25,16 @@ void Documents::parse(const std::string& path) {
         // Sets the document number
         document.setNumber(docNode->first_node("DOCNO")->value());
 
-        // Gets the title and subtitles and assign it to the document
-        std::string title;
-        for (rapidxml::xml_node<> * titleNode = docNode->first_node("HEAD"); strcmp(titleNode->name(), "HEAD") == 0; titleNode = titleNode->next_sibling()) {
-            title += "\n";
-            title += titleNode->value();
+        // Gets the title and subtitles and assign it to the document if they exist
+        if (docNode->first_node("HEAD")) {
+            std::string title;
+            for (rapidxml::xml_node<> *titleNode = docNode->first_node("HEAD");
+                 strcmp(titleNode->name(), "HEAD") == 0; titleNode = titleNode->next_sibling()) {
+                title += "\n";
+                title += titleNode->value();
+            }
+            document.setTitle(title);
         }
-        document.setTitle(title);
 
         // Gets the author of the document
         rapidxml::xml_node<> * authorNode = docNode->first_node("BYLINE");
