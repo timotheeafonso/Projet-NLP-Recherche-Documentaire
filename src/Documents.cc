@@ -35,7 +35,7 @@ void Documents::parse(const std::string& path) {
                 title += "\n";
                 title += titleNode->value();
             }
-            document.setTitle(title);
+            document.setTitle(Documents::tokenize(Documents::deleteSpecialChar(title)));
         }
 
         // Gets the author of the document
@@ -55,7 +55,7 @@ void Documents::parse(const std::string& path) {
         for (rapidxml::xml_node<> * contentNode = docNode->first_node("TEXT"); contentNode; contentNode = contentNode->next_sibling()) {
             content += contentNode->value();
         }
-        document.setContent(content);
+        document.setContent(Documents::tokenize(Documents::deleteSpecialChar(content)));
 
         _documents.push_back(document);
     }
@@ -85,7 +85,7 @@ std::string Documents::deleteSpecialChar(std::string text) {
     return text;
 }
 
-std::vector<std::string> Documents::tokenize(std::string text){
+std::vector<std::string> Documents::tokenize(const std::string& text){
     std::vector<std::string> tokens;
 
     std::istringstream iss(text);
