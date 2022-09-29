@@ -2,7 +2,7 @@
 #include <string>
 
 class Document {
-protected:
+private:
     std::string _number;
     std::string _title;
     std::string _author;
