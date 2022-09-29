@@ -6,6 +6,12 @@
 #include <iterator>
 #include "../lib/rapidxml-1.13/rapidxml.hpp"
 
+void Documents::print() {
+    for (auto doc : _documents) {
+        std::cout << doc.toString();
+    }
+}
+
 void Documents::parse(const std::string& path) {
     rapidxml::xml_document<> doc;
     rapidxml::xml_node<> * rootNode = nullptr;
@@ -41,7 +47,8 @@ void Documents::parse(const std::string& path) {
         // Gets the author of the document
         rapidxml::xml_node<> * authorNode = docNode->first_node("BYLINE");
         if (authorNode) {
-            document.setAuthor(authorNode->value());
+            std::string author = authorNode->value();
+            document.setAuthor(author.substr(3));
 
             // Gets the editor of the document
             rapidxml::xml_node<> * editorNode = authorNode->next_sibling();
@@ -85,7 +92,7 @@ std::string Documents::deleteSpecialChar(std::string text) {
     return text;
 }
 
-std::vector<std::string> Documents::tokenize(const std::string& text){
+std::vector<std::string> Documents::tokenize(const std::string& text) {
     std::vector<std::string> tokens;
 
     std::istringstream iss(text);
@@ -95,10 +102,4 @@ std::vector<std::string> Documents::tokenize(const std::string& text){
     }
 
     return tokens;
-}
-
-void Documents::print() {
-    for (auto doc : _documents) {
-        std::cout << doc.toString();
-    }
 }
