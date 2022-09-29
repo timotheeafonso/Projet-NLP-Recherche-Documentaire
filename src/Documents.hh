@@ -11,4 +11,6 @@ public:
     void print();
 
     void parse(const std::string& path);
+    std::string deleteSpecialChar(std::string text);
+    std::vector<std::string> tokenize(std::string str);
 };

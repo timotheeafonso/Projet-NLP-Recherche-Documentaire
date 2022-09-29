@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <sstream>
+#include <iterator>
 #include "../lib/rapidxml-1.13/rapidxml.hpp"
 
 void Documents::parse(const std::string& path) {
@@ -41,7 +43,7 @@ void Documents::parse(const std::string& path) {
         if (authorNode) {
             document.setAuthor(authorNode->value());
 
-            // Gets the editor pof the document
+            // Gets the editor of the document
             rapidxml::xml_node<> * editorNode = authorNode->next_sibling();
             if (strcmp(editorNode->name(), "BYLINE") == 0) {
                 document.setEditor(editorNode->value());
@@ -57,6 +59,42 @@ void Documents::parse(const std::string& path) {
 
         _documents.push_back(document);
     }
+}
+
+std::string Documents::deleteSpecialChar(std::string text) {
+    char specialChar[] = R"(.,();':!?{}""`)";
+    int it = 0;
+
+    for(char c : text) {
+        it++;
+
+        // Puts all the letters in lower case
+        if (isupper(c)) {
+            char lower = c + 32;
+            std::replace( text.begin(), text.end(), c,lower);
+        }
+
+        // Replaces all special characters with a space
+        for(char c_ : specialChar) {
+            if(c == c_){
+                std::replace( text.begin(), text.end(), c,' ');
+            }
+        }
+    }
+
+    return text;
+}
+
+std::vector<std::string> Documents::tokenize(std::string text){
+    std::vector<std::string> tokens;
+
+    std::istringstream iss(text);
+    std::string word;
+    while (iss >> word) {
+        tokens.push_back(word);
+    }
+
+    return tokens;
 }
 
 void Documents::print() {
