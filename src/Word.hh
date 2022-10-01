@@ -2,6 +2,7 @@
 #include <string>
 
 class Word {
+friend class BTree;
 friend class BTreeNode;
 
 private:
