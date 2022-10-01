@@ -4,7 +4,9 @@
 #include <cstring>
 #include <sstream>
 #include <iterator>
+#include <bits/stdc++.h>
 #include "../lib/rapidxml-1.13/rapidxml.hpp"
+#include <vector>
 
 void Documents::print() {
     for (auto doc : _documents) {
@@ -12,7 +14,7 @@ void Documents::print() {
     }
 }
 
-void Documents::parse(const std::string& path) {
+void Documents::parse(const std::string& path) {    
     rapidxml::xml_document<> doc;
     rapidxml::xml_node<> * rootNode = nullptr;
 
@@ -26,13 +28,15 @@ void Documents::parse(const std::string& path) {
 
     // Finds out the root node DOCS
     rootNode = doc.first_node("DOCS");
-
-    // Loops over each documents
+    
+    // Loops over each documents    
     for (rapidxml::xml_node<> * docNode = rootNode->first_node("DOC"); docNode; docNode = docNode->next_sibling()) {
+        
         Document document;
+        
         // Sets the document number
         document.setNumber(docNode->first_node("DOCNO")->value());
-
+        
         // Gets the title and subtitles and assign it to the document if they exist
         if (docNode->first_node("HEAD")) {
             std::string title;
@@ -65,41 +69,84 @@ void Documents::parse(const std::string& path) {
         document.setContent(Documents::tokenize(Documents::deleteSpecialChar(content)));
 
         _documents.push_back(document);
+        
     }
+    
+    
 }
 
 std::string Documents::deleteSpecialChar(std::string text) {
-    char specialChar[] = R"(.,();':!?{}""`)";
-    int it = 0;
 
-    for(char c : text) {
+    char specialChar[]=".,();!?{}\"\"$%€1234567890";
+    std::string s=text;
+    int it=0;
+    for(char c : s){
         it++;
-
-        // Puts all the letters in lower case
-        if (isupper(c)) {
+        if (isupper(c)){
             char lower = c + 32;
-            std::replace( text.begin(), text.end(), c,lower);
+            std::replace( s.begin(), s.end(), c,lower);
         }
-
-        // Replaces all special characters with a space
-        for(char c_ : specialChar) {
-            if(c == c_){
-                std::replace( text.begin(), text.end(), c,' ');
+        for(char c2 : specialChar){
+            if(c==c2){
+                std::replace( s.begin(), s.end(), c,' ');
             }
         }
     }
 
-    return text;
+    return s;
+} 
+
+
+std::vector<std::string> Documents::tokenize(std::string text) {
+
+    char delim =' ';
+    std::vector<std::string> tokens;
+    std::string temp = "";
+    int space=0;
+    for(int i = 0; i < text.length(); i++){
+        if(text[i] == delim){
+            if(space==0)
+                tokens.push_back(temp);
+            temp = "";
+            space++;
+            
+        }
+        else{
+            space=0;
+            if(text[i]!=' ')
+                temp += text[i];    
+        }       
+    }
+    tokens.push_back(temp);
+    return tokens;
 }
 
-std::vector<std::string> Documents::tokenize(const std::string& text) {
-    std::vector<std::string> tokens;
 
-    std::istringstream iss(text);
-    std::string word;
-    while (iss >> word) {
-        tokens.push_back(word);
+std::vector<std::string> Documents::getStopword(){
+    std::vector<std::string> stopwords;
+    std::ifstream newfile;
+    newfile.open("../stopwords.txt",std::ios::in); //open a file to perform read operation using file object
+    if (newfile.is_open()){ //checking whether the file is open
+        std::string tp;
+        while (newfile >> tp) {
+            
+            stopwords.push_back(tp);
+        }
     }
+    newfile.close();
+    return stopwords;
+}
 
+std::vector<std::string> Documents::deleteStopwords(std::vector<std::string> tokens, std::vector<std::string> stopwords){
+
+    for(std::vector<std::string>::iterator it = std::begin(tokens); it != std::end(tokens); ++it){
+        for(std::vector<std::string>::iterator it2 = std::begin(stopwords); it2 != std::end(stopwords); ++it2){
+            if(*it==*it2){
+                tokens.erase(it);
+                it--;
+                
+            }
+        }
+    }
     return tokens;
 }
