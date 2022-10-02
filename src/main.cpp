@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Document.hh"
 #include "Documents.hh"
+#include "BTrees.hh"
 #include "BTree.hh"
 #include "Word.hh"
 
@@ -9,8 +10,16 @@ int main() {
     documents.parse("../AP/AP891216");
     // documents.print();
 
-    BTree tree(3);
-    tree.insert(Word("test"));
+    BTrees trees;
+    trees.addTrees(documents, 3);
+
+    /*BTree tree(3);
+
+    for (int i = 0; i < 7; ++i) {
+        tree.insert(Word("test"));
+    }*/
+
+    /*tree.insert(Word("test"));
     tree.insert(Word("architecte"));
     tree.insert(Word("pleonasme"));
     tree.insert(Word("satisfaction"));
@@ -18,9 +27,9 @@ int main() {
     tree.insert(Word("power"));
     tree.insert(Word("original"));
     tree.insert(Word("zebra"));
-    tree.insert(Word("pleonasme"));
+    tree.insert(Word("pleonasme"));*/
 
-    tree.traverse();
+     tree.traverse();
 
     Word word("satisfaction");
     (tree.search(word) != nullptr)? std::cout << "\nPresent" : std::cout << "\nNot Present";

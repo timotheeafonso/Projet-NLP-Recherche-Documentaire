@@ -3,6 +3,8 @@
 #include <string>
 
 class BTree {
+friend class BTrees;
+
 private:
     std::string _number;
     BTreeNode *_root;
@@ -10,6 +12,8 @@ private:
 
 public:
     explicit BTree(int minDegree);
+
+    void setNumber(std::string number) { _number = std::move(number); };
 
     void traverse();
     BTreeNode* search(const Word& word);
