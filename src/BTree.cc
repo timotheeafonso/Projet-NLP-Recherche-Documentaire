@@ -24,15 +24,15 @@ void BTree::insert(const Word &word) {
         // Allocate memory for root
         _root = new BTreeNode(_minDegree, true);
         _root->_words[0] = word;  // Insert key
-        _root->_minDegree = 1;  // Update number of words in root
+        _root->_degree = 1;  // Update number of words in root
     }
     else // If tree is not empty
     {
         // If root is full, then tree grows in height
-        if (_root->_minDegree == 2*_minDegree-1)
+        if (_root->_degree == 2*_minDegree-1)
         {
             // Allocate memory for new root
-            BTreeNode *s = new BTreeNode(_minDegree, false);
+            auto *s = new BTreeNode(_minDegree, false);
 
             // Make old root as child of new root
             s->_childs[0] = _root;
