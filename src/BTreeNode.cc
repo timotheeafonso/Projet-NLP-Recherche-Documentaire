@@ -29,7 +29,7 @@ void BTreeNode::insertNonFull(const Word& word) {
         _degree = _degree+1;
     }
     // If this node is not leaf
-    // Find the child which is going to have the new key
+    // Find the child which is going to have the new word
     else {
         while (i >= 0 && _words[i]._word > word._word)
             i--;
@@ -39,13 +39,17 @@ void BTreeNode::insertNonFull(const Word& word) {
             // If the child is full, then split it
             splitChild(i+1, _childs[i+1]);
 
-            // After split, the middle key of childs[i] goes up and
+            // After split, the middle word of childs[i] goes up and
             // childs[i] is splitted into two.  See which of the two
-            // is going to have the new key
+            // is going to have the new word
             if (_words[i]._word < word._word)
                 i++;
         }
-        _childs[i+1]->insertNonFull(word);
+        // Increment the occurence of a word if it's already in the tree
+        if (_words[i]._word == word._word)
+            _words[i].incremmentOccurence();
+        else
+            _childs[i+1]->insertNonFull(word);
     }
 }
 
@@ -98,7 +102,7 @@ void BTreeNode::traverse() {
         // traverse the subtree rooted with child childs[i].
         if (!_leaf)
             _childs[i]->traverse();
-        std::cout << " " << _words[i]._word << " : " << _words[i]._occurences;
+        std::cout << "\n" << _words[i]._word << " : " << _words[i]._occurence;
     }
 
     // Print the subtree rooted with last child

@@ -18,6 +18,7 @@ int main() {
     tree.insert(Word("power"));
     tree.insert(Word("original"));
     tree.insert(Word("zebra"));
+    tree.insert(Word("pleonasme"));
 
     tree.traverse();
 

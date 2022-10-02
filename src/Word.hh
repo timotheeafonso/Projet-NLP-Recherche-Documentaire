@@ -7,10 +7,11 @@ friend class BTreeNode;
 
 private:
     std::string _word;
-    unsigned int _occurences;
+    unsigned int _occurence;
+
+    void incremmentOccurence() { _occurence++; };
 
 public:
-    Word();
-    Word(std::string word);
-
+    Word()=default;;
+    explicit Word(std::string word);
 };

@@ -1,11 +1,8 @@
+#include <utility>
+
 #include "Word.hh"
 
-Word::Word() {
-
-}
-
 Word::Word(std::string word) {
-    _word = word;
-    _occurences = 1;
+    _word = std::move(word);
+    _occurence = 1;
 }
-
