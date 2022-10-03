@@ -29,13 +29,13 @@ int main() {
     tree.insert(Word("zebra"));
     tree.insert(Word("pleonasme"));*/
 
-     tree.traverse();
+    /*tree.traverse();
 
     Word word("satisfaction");
     (tree.search(word) != nullptr)? std::cout << "\nPresent" : std::cout << "\nNot Present";
 
     Word word_("void");
-    (tree.search(word_) != nullptr)? std::cout << "\nPresent" : std::cout << "\nNot Present";
+    (tree.search(word_) != nullptr)? std::cout << "\nPresent" : std::cout << "\nNot Present";*/
 
     return 0;
 }
