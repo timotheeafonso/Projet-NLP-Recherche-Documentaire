@@ -5,27 +5,37 @@ BTreeNode::BTreeNode(int minDegree, bool leaf) {
     _minDegree = minDegree;
     _leaf = leaf;
     _degree = 0;
-
-    _words = new Word[2*_minDegree-1];
-    _childs = new BTreeNode*[2*_minDegree];
 }
 
 void BTreeNode::insertNonFull(const Word& word) {
     // Initialize index as index of rightmost element
     int i = _degree-1;
+    auto it = _words.end();
+    it--;
 
     // If this is a leaf node
     if (_leaf) {
         // The following loop does two things
         // a) Finds the location of new key to be inserted
         // b) Moves all greater words to one place ahead
-        while (i >= 0 && _words[i]._word > word._word) {
-            _words[i+1] = _words[i];
-            i--;
+        if (i >= 0 && _words[i]._word > word._word) {
+            _words.push_back(_words[i]);
+
+            it = _words.end();
+            it--;
+
+            while (i >= 0 && _words[i]._word > word._word) {
+                //_words[i+1] = _words[i];
+                *it = _words[i];
+                i--;
+                it--;
+            }
         }
 
+
         // Insert the new key at found location
-        _words[i+1] = word;
+        //_words[i+1] = word;
+        *it = word;
         _degree = _degree+1;
     }
     // If this node is not leaf
@@ -35,7 +45,7 @@ void BTreeNode::insertNonFull(const Word& word) {
             i--;
 
         // See if the found child is full
-        if (_childs[i+1]->_degree == 2*_minDegree-1) {
+        if (_childs[i+1]._degree == 2*_minDegree-1) {
             // If the child is full, then split it
             splitChild(i+1, _childs[i+1]);
 
@@ -49,28 +59,28 @@ void BTreeNode::insertNonFull(const Word& word) {
         if (_words[i]._word == word._word)
             _words[i].incremmentOccurence();
         else
-            _childs[i+1]->insertNonFull(word);
+            _childs[i+1].insertNonFull(word);
     }
 }
 
-void BTreeNode::splitChild(int i, BTreeNode *child) {
+void BTreeNode::splitChild(int i, BTreeNode child) {
     // Create a new node which is going to store (t-1) words
     // of child
-    auto *z = new BTreeNode(child->_minDegree, child->_leaf);
-    z->_degree = _minDegree - 1;
+    BTreeNode z(child._minDegree, child._leaf);
+    z._degree = _minDegree - 1;
 
     // Copy the last (t-1) words of child to z
     for (int j = 0; j < _minDegree-1; j++)
-        z->_words[j] = child->_words[j+_minDegree];
+        z._words[j] = child._words[j+_minDegree];
 
     // Copy the last t children of child to z
-    if (!child->_leaf) {
+    if (!child._leaf) {
         for (int j = 0; j < _minDegree; j++)
-            z->_childs[j] = child->_childs[j+_minDegree];
+            z._childs[j] = child._childs[j+_minDegree];
     }
 
     // Reduce the number of words in child
-    child->_degree = _minDegree - 1;
+    child._degree = _minDegree - 1;
 
     // Since this node is going to have a new child,
     // create space of new child
@@ -86,7 +96,7 @@ void BTreeNode::splitChild(int i, BTreeNode *child) {
         _words[j+1] = _words[j];
 
     // Copy the middle key of child to this node
-    _words[i] = child->_words[_minDegree-1];
+    _words[i] = child._words[_minDegree-1];
 
     // Increment count of words in this node
     _degree = _degree + 1;
@@ -101,16 +111,16 @@ void BTreeNode::traverse() {
         // If this is not leaf, then before printing key[i],
         // traverse the subtree rooted with child childs[i].
         if (!_leaf)
-            _childs[i]->traverse();
+            _childs[i].traverse();
         std::cout << "\n" << _words[i]._word << " : " << _words[i]._occurence;
     }
 
     // Print the subtree rooted with last child
     if (!_leaf)
-        _childs[i]->traverse();
+        _childs[i].traverse();
 }
 
-BTreeNode *BTreeNode::search(const Word& word) {
+/*BTreeNode BTreeNode::search(const Word& word) {
     // Find the first key greater than or equal to word
     int i = 0;
     while (i < _degree && word._word > _words[i]._word)
@@ -125,5 +135,5 @@ BTreeNode *BTreeNode::search(const Word& word) {
         return nullptr;
 
     // Go to the appropriate child
-    return _childs[i]->search(word);
-}
+    return _childs[i].search(word);
+}*/
