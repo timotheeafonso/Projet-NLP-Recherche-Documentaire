@@ -31,7 +31,9 @@ void BTree::insert(const Word &word) {
             BTreeNode s(_minDegree, false);
 
             // Make old root as child of new root
-            s._childs[0] = _root;
+            //s._childs[0] = _root;
+            s._childs.push_back(_root);
+
 
             // Split the old root and move 1 key to the new root
             s.splitChild(0, _root);

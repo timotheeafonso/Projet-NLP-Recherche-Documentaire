@@ -7,6 +7,22 @@ BTreeNode::BTreeNode(int minDegree, bool leaf) {
     _degree = 0;
 }
 
+std::vector<Word>::iterator BTreeNode::getWordIterator(const int& i) {
+    auto it = _words.begin();
+    for (int j = 0; j < i; ++j)
+        it++;
+
+    return it;
+}
+
+std::vector<BTreeNode>::iterator BTreeNode::getNodeIterator(const int& i) {
+    auto it = _childs.begin();
+    for (int j = 0; j < i; ++j)
+        it++;
+
+    return it;
+}
+
 void BTreeNode::insertNonFull(const Word& word) {
     // Initialize index as index of rightmost element
     int i = _degree-1;
@@ -70,13 +86,19 @@ void BTreeNode::splitChild(int i, BTreeNode child) {
     z._degree = _minDegree - 1;
 
     // Copy the last (t-1) words of child to z
-    for (int j = 0; j < _minDegree-1; j++)
-        z._words[j] = child._words[j+_minDegree];
+    for (int j = 0; j < _minDegree-1; j++) {
+        //z._words[j] = child._words[j+_minDegree];
+        z._words.push_back(child._words[j+_minDegree]);
+    }
 
     // Copy the last t children of child to z
     if (!child._leaf) {
-        for (int j = 0; j < _minDegree; j++)
-            z._childs[j] = child._childs[j+_minDegree];
+        for (int j = 0; j < _minDegree; j++) {
+            //z._childs[j] = child._childs[j+_minDegree];
+            auto it = z._childs.begin();
+            *it = child._childs[j+_minDegree];
+            it++;
+        }
     }
 
     // Reduce the number of words in child
@@ -84,19 +106,44 @@ void BTreeNode::splitChild(int i, BTreeNode child) {
 
     // Since this node is going to have a new child,
     // create space of new child
-    for (int j = _degree; j >= i+1; j--)
-        _childs[j+1] = _childs[j];
+    auto itN = getNodeIterator(_degree);
+    for (int j = _degree; j >= i+1; j--) {
+        if (j == _degree) {
+            _childs.push_back(_childs[j]);
+            itN--;
+            j--;
+        }
+        //_childs[j+1] = _childs[j];
+        *++itN = _childs[j];
+        itN--;
+    }
 
     // Link the new child to this node
-    _childs[i+1] = z;
+    // _childs[i+1] = z;
+    *itN = z;
 
     // A key of child will move to this node. Find the location of
     // new key and move all greater words one space ahead
-    for (int j = _degree-1; j >= i; j--)
-        _words[j+1] = _words[j];
+    auto itW = getWordIterator(_degree-1);
+    for (int j = _degree-1; j >= i; j--) {
+        if (j == _degree-1) {
+            _words.push_back(_words[j]);
+            itW--;
+            j--;
+        }
+        //_words[j + 1] = _words[j];
+        *itW = _words[j];
+        itW--;
+    }
 
     // Copy the middle key of child to this node
-    _words[i] = child._words[_minDegree-1];
+    //_words[i] = child._words[_minDegree-1];
+    if (_words.empty())
+        _words.push_back(child._words[_minDegree-1]);
+    else {
+        itW = getWordIterator(i);
+        *itW = child._words[_minDegree-1];
+    }
 
     // Increment count of words in this node
     _degree = _degree + 1;

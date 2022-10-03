@@ -16,6 +16,10 @@ private:
 public:
     BTreeNode(int minDegree, bool leaf);
 
+
+    std::vector<Word>::iterator getWordIterator(const int& i);
+    std::vector<BTreeNode>::iterator getNodeIterator(const int& i);
+
     void insertNonFull(const Word& word);
     void splitChild(int i, BTreeNode child);
     void traverse();
