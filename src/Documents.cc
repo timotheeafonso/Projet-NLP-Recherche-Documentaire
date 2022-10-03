@@ -8,6 +8,8 @@
 #include "../lib/rapidxml-1.13/rapidxml.hpp"
 #include <utility>
 #include <vector>
+#include "../lib/porter/olestem/stemming/english_stem.h"
+#include <cstdlib>
 
 void Documents::print() {
     for (auto doc : _documents) {
@@ -145,6 +147,27 @@ std::vector<std::string> Documents::deleteStopwords(std::vector<std::string> tok
             }
         }
     }
-
     return tokens;
+}
+
+std::vector<std::string> Documents::stem(std::vector<std::string> tokens){
+    std::wstring word;
+    stemming::english_stem<> StemEnglish;
+    std::vector<std::string> newList;
+    for (auto it = tokens.cbegin(); it != tokens.cend(); it++) {
+        std::string token=*it;
+        std::string ANSIWord(token);
+        wchar_t* UnicodeTextBuffer = new wchar_t[(*it).length()+1];
+        std::wmemset(UnicodeTextBuffer, 0, (*it).length()+1);
+        std::mbstowcs(UnicodeTextBuffer, (*it).c_str(), (*it).length());
+        word = UnicodeTextBuffer;
+        StemEnglish(word);
+        
+        std::string str(word.length(), 0);
+        std::transform(word.begin(), word.end(), str.begin(), [] (wchar_t c) {
+            return (char)c;
+        });
+        newList.push_back(str);
+    }
+    return newList;
 }

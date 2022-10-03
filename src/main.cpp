@@ -11,10 +11,15 @@ int main() {
     std::vector<std::string> mylist = documents.tokenize(cleanStr);
     std::vector<std::string> stopwords = documents.getStopword();
     mylist=documents.deleteStopwords(mylist,stopwords);
-    std::cout<<mylist.size();
     
-    for (auto it = mylist.cbegin(); it != mylist.cend(); it++) {
-        std::cout << *it << std::endl;
+    for (auto it : mylist) {
+        std::cout << it << std::endl;
     }
+
+    mylist=documents.stem(mylist);    
+    
+    for (auto it : mylist) {
+            std::cout << it << std::endl;
+        }
        return 0;
 }
