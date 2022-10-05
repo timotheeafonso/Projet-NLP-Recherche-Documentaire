@@ -1,8 +1,14 @@
 #include <iostream>
 #include "Document.hh"
 #include "Documents.hh"
+#include "Query.hh"
 
-int main() {
+#include "mainwindow.hh"
+#include "../build/ui_mainwindow.h"
+
+
+
+int main(int argc, char *argv[]) {
     Documents documents;
     documents.parse("../AP/AP891216");
     //documents.print();
@@ -20,6 +26,15 @@ int main() {
     
     for (auto it : mylist) {
             std::cout << it << std::endl;
-        }
-       return 0;
+    }
+    
+    
+    std::string q="Hors in mountin with blue skye";
+    Query query(q);
+    query.correctQuery();
+    
+    QApplication app{argc, argv};
+    MainWindow ui;
+    ui.show();
+    return app.exec();
 }

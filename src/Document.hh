@@ -13,7 +13,7 @@ private:
 public:
     Document() = default;;
     std::string toString();
-
+    std::vector<std::string> getTitle();
     void setNumber(const std::string &number) { _number = number; };
     void setTitle(const std::vector<std::string> &title) { _title = title; };
     void setAuthor(const std::string &author) { _author = author; };
