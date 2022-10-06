@@ -3,11 +3,11 @@
 #include <string>
 
 class BTree {
-friend class BTrees;
+    friend class BTrees;
 
 private:
     std::string _number;
-    BTreeNode *_root;
+    BTreeNode _root;
     int _minDegree;
 
 public:
@@ -16,6 +16,6 @@ public:
     void setNumber(std::string number) { _number = std::move(number); };
 
     void traverse();
-    BTreeNode* search(const Word& word);
+    //BTreeNode search(const Word& word);
     void insert(const Word& word);
 };

@@ -4,11 +4,11 @@
 #include <vector>
 
 class BTreeNode {
-friend class BTree;
+    friend class BTree;
 
 private:
-    Word *_words;
-    BTreeNode **_childs;
+    std::vector<Word> _words;
+    std::vector<BTreeNode> _childs;
     int _minDegree;
     int _degree;
     bool _leaf;
@@ -16,8 +16,11 @@ private:
 public:
     BTreeNode(int minDegree, bool leaf);
 
+    std::vector<Word>::iterator getWordIterator(const int& i);
+    std::vector<BTreeNode>::iterator getNodeIterator(const int& i);
+
     void insertNonFull(const Word& word);
-    void splitChild(int i, BTreeNode* child);
+    void splitChild(int i, BTreeNode child);
     void traverse();
-    BTreeNode *search(const Word& word);
+    //BTreeNode search(const Word& word);
 };
