@@ -1,5 +1,7 @@
 # Projet-Recherche-Documentaire
 
+mkdir build
+
 cd build
 
 qmake -project ../src/
