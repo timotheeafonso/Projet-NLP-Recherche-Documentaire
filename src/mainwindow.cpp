@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 {
     ui->setupUi(this);
     ui->pushButton_2->setVisible(false);
+    ui->label->setVisible(false);
     
 }
 
@@ -25,8 +26,9 @@ void MainWindow::on_pushButton_clicked()
     std::string correct="Showing results for: ";
     if(str.toStdString()!=str2){
         correct+=str2;
+        ui->label->setVisible(true);
         ui->pushButton_2->setVisible(true);
-        ui->pushButton_2->setText(QString::fromStdString(correct));
+        ui->pushButton_2->setText(QString::fromStdString(str2));
     }
 
     Documents documents;
@@ -51,6 +53,8 @@ void MainWindow::on_pushButton_2_clicked()
 {
     ui->lineEdit->setText(ui->pushButton_2->text());
     ui->pushButton_2->setVisible(false);
+    ui->label->setVisible(false);
+
 }
 
 

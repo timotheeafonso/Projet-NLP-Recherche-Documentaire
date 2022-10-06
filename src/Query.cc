@@ -26,6 +26,7 @@ std::string Query::correctQuery() {
         correctQuery+=" ";
 
 	}
+    correctQuery.pop_back();
     std::cout<<correctQuery;
     return correctQuery;
 }
