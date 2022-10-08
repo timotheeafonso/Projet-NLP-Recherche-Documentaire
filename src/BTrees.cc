@@ -9,7 +9,8 @@ void BTrees::addTrees(Documents& documents, const int& order) {
 
         for (const auto& word : doc.getContent()) {
             tree.insert(Word(word));
-            tree.traverse();
+            //tree.traverse();
+            std::cout << word;
         }
 
         _trees.push_back(tree);
