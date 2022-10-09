@@ -26,50 +26,53 @@ std::vector<BTreeNode>::iterator BTreeNode::getNodeIterator(const int& i) {
 void BTreeNode::insertNonFull(const Word& word) {
     // Initialize index as index of rightmost element
     int i = _degree-1;
+    int w = wordExist(word);
 
-    // If this is a leaf node
-    if (_leaf) {
-        // The following loop does two things
-        // a) Finds the location of new key to be inserted
-        // b) Moves all greater words to one place ahead
-        _words.push_back(_words[i]);
-        auto it = _words.end();
-        it--;
-
-        while (i >= 0 && _words[i]._word > word._word) {
-            //_words[i+1] = _words[i];
-            *it = _words[i];
-            i--;
-            it--;
-        }
-
-        // Insert the new key at found location
-        //_words[i+1] = word;
-        *it = word;
-        _degree = _degree + 1;
+    if (w != _degree) {
+        _words[w].incremmentOccurence();
     }
-        // If this node is not leaf
-        // Find the child which is going to have the new word
     else {
-        while (i >= 0 && _words[i]._word > word._word)
-            i--;
+        // If this is a leaf node
+        if (_leaf) {
+            // The following loop does two things
+            // a) Finds the location of new key to be inserted
+            // b) Moves all greater words to one place ahead
+            _words.push_back(_words[i]);
+            auto it = _words.end();
+            it--;
 
-        // See if the found child is full
-        if (_children[i+1]._degree == 2 * _minDegree - 1) {
-            // If the child is full, then split it
-            splitChild(i+1, _children[i+1]);
+            while (i >= 0 && _words[i]._word > word._word) {
+                //_words[i+1] = _words[i];
+                *it = _words[i];
+                i--;
+                it--;
+            }
 
-            // After split, the middle word of childs[i] goes up and
-            // childs[i] is splitted into two.  See which of the two
-            // is going to have the new word
-            if (_words[i+1]._word < word._word)
-                i++;
+            // Insert the new key at found location
+            //_words[i+1] = word;
+            *it = word;
+            _degree = _degree + 1;
         }
-        // Increment the occurence of a word if it's already in the tree
-        if (_words[i+1]._word == word._word)
-            _words[i+1].incremmentOccurence();
-        else
-            _children[i+1].insertNonFull(word);
+            // If this node is not leaf
+            // Find the child which is going to have the new word
+        else {
+            while (i >= 0 && _words[i]._word > word._word)
+                i--;
+
+            // See if the found child is full
+            if (_children[i + 1]._degree == 2 * _minDegree - 1) {
+                // If the child is full, then split it
+                splitChild(i + 1, _children[i + 1]);
+
+                // After split, the middle word of childs[i] goes up and
+                // childs[i] is splitted into two.  See which of the two
+                // is going to have the new word
+                if (_words[i + 1]._word < word._word)
+                    i++;
+            }
+
+            _children[i + 1].insertNonFull(word);
+        }
     }
 }
 
@@ -164,6 +167,16 @@ void BTreeNode::traverse() {
     // Print the subtree rooted with last child
     if (!_leaf)
         _children[i].traverse();
+}
+
+int BTreeNode::wordExist(const Word &word) {
+    int i = 0;
+    for (i; i < _degree; ++i) {
+        if (word._word == _words[i]._word)
+            return i;
+    }
+
+    return i;
 }
 
 /*BTreeNode BTreeNode::search(const Word& word) {

@@ -20,8 +20,8 @@ public:
     std::vector<BTreeNode>::iterator getNodeIterator(const int& i);
 
     void insertNonFull(const Word& word);
-    
     void splitChild(int i, BTreeNode child);
     void traverse();
+    int wordExist(const Word& word);
     //BTreeNode search(const Word& word);
 };
