@@ -24,14 +24,15 @@ std::vector<BTreeNode>::iterator BTreeNode::getNodeIterator(const int& i) {
 }
 
 void BTreeNode::insertNonFull(const Word& word) {
-    // Initialize index as index of rightmost element
-    int i = _degree-1;
     int w = wordExist(word);
 
     if (w != _degree) {
         _words[w].incremmentOccurence();
     }
     else {
+        // Initialize index as index of rightmost element
+        int i = _degree-1;
+
         // If this is a leaf node
         if (_leaf) {
             // The following loop does two things
