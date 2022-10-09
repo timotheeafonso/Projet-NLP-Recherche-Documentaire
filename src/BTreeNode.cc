@@ -93,10 +93,10 @@ void BTreeNode::splitChild(int i, BTreeNode child) {
     _children[i]._degree--;
 
     // Copy the last t children of child to node
+    auto it = node._children.begin();
     if (!child._leaf) {
         for (int j = 0; j < _minDegree; j++) {
             //node._children[j] = child._children[j+_minDegree];
-            auto it = node._children.begin();
             *it = child._children[j + _minDegree];
             it++;
         }
@@ -112,7 +112,7 @@ void BTreeNode::splitChild(int i, BTreeNode child) {
 
     for (int j = _degree-1; j >= i+1; j--) {
         //_children[j+1] = _children[j];
-        *++itN = _children[j];
+        *itN = _children[j];
         itN--;
     }
 
