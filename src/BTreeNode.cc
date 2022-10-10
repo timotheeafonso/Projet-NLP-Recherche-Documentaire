@@ -180,20 +180,20 @@ int BTreeNode::wordExist(const Word &word) {
     return i;
 }
 
-/*BTreeNode BTreeNode::search(const Word& word) {
+int BTreeNode::search(const std::string& word) {
     // Find the first key greater than or equal to word
     int i = 0;
-    while (i < _degree && word._word > _words[i]._word)
+    while (i < _degree && word > _words[i]._word)
         i++;
 
     // If the found key is equal to word, return this node
-    if (_words[i]._word == word._word)
-        return this;
+    if (_words[i]._word == word)
+        return _words[i]._occurence;
 
     // If key is not found here and this is a leaf node
     if (_leaf)
-        return nullptr;
+        return 0;
 
     // Go to the appropriate child
     return _children[i].search(word);
-}*/
+}

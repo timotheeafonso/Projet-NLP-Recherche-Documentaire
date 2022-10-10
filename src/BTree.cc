@@ -9,12 +9,12 @@ void BTree::traverse() {
         _root.traverse();
 }
 
-/*BTreeNode BTree::search(const Word &word) {
+int BTree::search(const std::string& word) {
     if (_root._degree == 0)
-        return _root;
+        return 0;
     else
         return _root.search(word);
-}*/
+}
 
 void BTree::insert(const Word &word) {
     // If tree is empty

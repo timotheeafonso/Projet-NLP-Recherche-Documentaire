@@ -16,6 +16,6 @@ public:
     void setNumber(std::string number) { _number = std::move(number); };
 
     void traverse();
-    //BTreeNode search(const Word& word);
     void insert(const Word& word);
+    int search(const std::string& word);
 };
