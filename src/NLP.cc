@@ -63,8 +63,8 @@ void NLP::deleteStopwords(std::vector<std::string>& tokens){
     std::vector<std::string> stopwords = getStopword();
 
     for(auto it = std::begin(tokens); it != std::end(tokens); ++it) {
-        for(auto it2 = std::begin(stopwords); it2 != std::end(stopwords); ++it2) {
-            if(*it == *it2){
+        for(const auto& sw : stopwords) {
+            if(*it == sw){
                 tokens.erase(it);
                 it--;
             }
