@@ -10,7 +10,8 @@ private:
 public:
     Documents()=default;;
     void print();
-    std::vector<Document> getDocuments();
+    std::vector<Document> getDocuments() { return _documents; }
+
     void parse(const std::string& path);
 
 };
