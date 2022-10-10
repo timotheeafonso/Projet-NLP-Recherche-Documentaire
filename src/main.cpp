@@ -2,7 +2,7 @@
 #include "Document.hh"
 #include "Documents.hh"
 #include "Query.hh"
-#include "BTrees.hh"
+#include "Forest.hh"
 #include "BTree.hh"
 #include "Word.hh"
 
@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
     Documents documents;
     documents.parse("../AP/AP891216");
 
-    BTrees trees;
-    trees.addTrees(documents, 3);
+    Forest forest;
+    forest.createForest(documents, 3);
     
     /*std::string q="Hors in mountin with blue skye";
     Query query(q);
