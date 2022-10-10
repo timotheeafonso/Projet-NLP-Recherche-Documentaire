@@ -16,6 +16,7 @@ public:
 
 
     std::string getNumber() { return _number; }
+    std::vector<std::string> getTitle() { return _title; }
     std::vector<std::string> getContent() { return _content; }
 
     void setNumber(const std::string &number) { _number = number; };

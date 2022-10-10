@@ -75,7 +75,3 @@ void Documents::parse(const std::string& path) {
         
     }
 }
-
-std::vector<Document> Documents::getDocuments(){
-    return _documents;
-}

@@ -1,8 +1,8 @@
 #include "BTree.hh"
 
 BTree::BTree(int minDegree):
-        _minDegree(minDegree),
-        _root(BTreeNode(minDegree, true)) {}
+    _root(BTreeNode(minDegree, true)),
+    _minDegree(minDegree) {}
 
 void BTree::traverse() {
     if (_root._degree)
@@ -25,7 +25,7 @@ void BTree::insert(const Word &word) {
     }
     else { // If tree is not empty
         // If root is full, then tree grows in height
-        if (_root._degree == 2*_minDegree-1)
+        if (_root._degree == 2*_minDegree-1 && _root._children.empty())
         {
             // Allocate memory for new root
             BTreeNode node(_minDegree, false);
