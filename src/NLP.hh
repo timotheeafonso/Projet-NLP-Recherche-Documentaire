@@ -5,12 +5,12 @@
 
 class NLP {
 private:
+    std::vector<std::string> getStopword();
 
 public:
     NLP() = default;;
-    std::string deleteSpecialChar(std::string text);
+    void deleteSpecialChar(std::string& text);
     std::vector<std::string> tokenize(std::string str);
-    std::vector<std::string> getStopword();
-    std::vector<std::string> deleteStopwords(std::vector<std::string> tokens, std::vector<std::string> stopwords);
-    std::vector<std::string> stem(std::vector<std::string> tokens);
+    void deleteStopwords(std::vector<std::string>& tokens);
+    void stem(std::vector<std::string>& tokens);
 };

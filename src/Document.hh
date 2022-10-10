@@ -1,8 +1,11 @@
 #pragma once
+#include "NLP.hh"
 #include <string>
 #include <vector>
 
-class Document {
+class Document : public NLP {
+friend class Documents;
+
 private:
     std::string _number;
     std::vector<std::string> _title;

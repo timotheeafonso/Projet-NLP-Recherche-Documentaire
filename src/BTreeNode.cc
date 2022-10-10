@@ -83,7 +83,7 @@ void BTreeNode::splitChild(int i, BTreeNode child) {
     BTreeNode node(child._minDegree, child._leaf);
     node._degree = _minDegree - 1;
 
-    // Copy the last (t-1) words of child to node
+    // Copy the last (_minDegree-1) words of child to node
     for (int j = 0; j < _minDegree-1; j++) {
         //node._words[j] = child._words[j+_minDegree];
         node._words.push_back(child._words[j + _minDegree]);

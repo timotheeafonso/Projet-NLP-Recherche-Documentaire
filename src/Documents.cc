@@ -17,7 +17,7 @@ void Documents::print() {
     }
 }
 
-void Documents::parse(const std::string& path) {    
+void Documents::parse(const std::string& path) {
     rapidxml::xml_document<> doc;
     rapidxml::xml_node<> * rootNode = nullptr;
 
@@ -31,15 +31,15 @@ void Documents::parse(const std::string& path) {
 
     // Finds out the root node DOCS
     rootNode = doc.first_node("DOCS");
-    
-    // Loops over each documents    
+
+    // Loops over each documents
     for (rapidxml::xml_node<> * docNode = rootNode->first_node("DOC"); docNode; docNode = docNode->next_sibling()) {
-        
+
         Document document;
-        
+
         // Sets the document number
         document.setNumber(docNode->first_node("DOCNO")->value());
-        
+
         // Gets the title and subtitles and assign it to the document if they exist
         if (docNode->first_node("HEAD")) {
             std::string title;
@@ -48,7 +48,9 @@ void Documents::parse(const std::string& path) {
                 title += "\n";
                 title += titleNode->value();
             }
-            document.setTitle(Documents::tokenize(Documents::deleteSpecialChar(title)));
+
+            deleteSpecialChar(title);
+            document.setTitle(tokenize(title));
         }
 
         // Gets the author of the document
@@ -69,9 +71,13 @@ void Documents::parse(const std::string& path) {
         for (rapidxml::xml_node<> * contentNode = docNode->first_node("TEXT"); contentNode; contentNode = contentNode->next_sibling()) {
             content += contentNode->value();
         }
-        document.setContent(Documents::tokenize(Documents::deleteSpecialChar(content)));
+
+        deleteSpecialChar(content);
+        document.setContent(tokenize(content));
+        document.deleteStopwords(document._content);
+        document.stem(document._content);
 
         _documents.push_back(document);
-        
+
     }
 }

@@ -12,21 +12,19 @@ Query::Query(std::string q){
 std::string Query::correctQuery() {
     std::string correctQuery;
 
-    std::vector<std::string> stopwords = getStopword();
-    
     SpellingCorrector corrector;
     corrector.load("../src/big.txt");
-    std::string cleanQuery=deleteSpecialChar(this->_content);    
-    std::vector<std::string> querryToken = tokenize(cleanQuery);
+    deleteSpecialChar(this->_content);
+    std::vector<std::string> querryToken = tokenize(this->_content);
     
     for(std::string token : querryToken)
 	{
 		std::string correct(corrector.correct(token));
-        correctQuery+=correct;
-        correctQuery+=" ";
+        correctQuery += correct;
+        correctQuery += " ";
 
 	}
     correctQuery.pop_back();
-    std::cout<<correctQuery;
+    std::cout << correctQuery;
     return correctQuery;
 }

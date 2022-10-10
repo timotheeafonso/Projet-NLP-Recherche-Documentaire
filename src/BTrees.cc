@@ -11,7 +11,7 @@ void BTrees::addTrees(Documents& documents, const int& order) {
             tree.insert(Word(word));
         }
 
-        //tree.traverse();
+        tree.traverse();
         _trees.push_back(tree);
     }
 }
