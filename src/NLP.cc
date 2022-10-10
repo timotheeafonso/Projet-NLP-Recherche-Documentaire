@@ -13,7 +13,7 @@
 #include <cstdlib>
 
 std::string NLP::deleteSpecialChar(std::string text) {
-    char specialChar[] = ".,();!?{}\"\"$%€1234567890";
+    char specialChar[] = "_-.,();!?{}\"\"\\`$%€1234567890";
     int it = 0;
 
     for(char c : text){
@@ -33,27 +33,14 @@ std::string NLP::deleteSpecialChar(std::string text) {
 } 
 
 std::vector<std::string> NLP::tokenize(std::string text) {
-    char delim = ' ';
     std::vector<std::string> tokens;
-    std::string temp;
-    int space = 0;
 
-    for (char i : text) {
-        if(i == delim){
-            if(space==0)
-                tokens.push_back(temp);
-            temp = "";
-            space++;
-            
-        }
-        else {
-            space = 0;
-            if (i != ' ')
-                temp += i;
-        }       
+    std::istringstream iss(text);
+    std::string word;
+    while (iss >> word) {
+        tokens.push_back(word);
     }
 
-    tokens.push_back(temp);
     return tokens;
 }
 
