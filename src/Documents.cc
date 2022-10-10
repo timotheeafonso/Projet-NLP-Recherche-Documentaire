@@ -4,7 +4,12 @@
 #include <cstring>
 #include <sstream>
 #include <iterator>
+#include <bits/stdc++.h>
 #include "../lib/rapidxml-1.13/rapidxml.hpp"
+#include <utility>
+#include <vector>
+#include "../lib/porter/olestem/stemming/english_stem.h"
+#include <cstdlib>
 
 void Documents::print() {
     for (auto doc : _documents) {
@@ -12,7 +17,7 @@ void Documents::print() {
     }
 }
 
-void Documents::parse(const std::string& path) {
+void Documents::parse(const std::string& path) {    
     rapidxml::xml_document<> doc;
     rapidxml::xml_node<> * rootNode = nullptr;
 
@@ -26,13 +31,15 @@ void Documents::parse(const std::string& path) {
 
     // Finds out the root node DOCS
     rootNode = doc.first_node("DOCS");
-
-    // Loops over each documents
+    
+    // Loops over each documents    
     for (rapidxml::xml_node<> * docNode = rootNode->first_node("DOC"); docNode; docNode = docNode->next_sibling()) {
+        
         Document document;
+        
         // Sets the document number
         document.setNumber(docNode->first_node("DOCNO")->value());
-
+        
         // Gets the title and subtitles and assign it to the document if they exist
         if (docNode->first_node("HEAD")) {
             std::string title;
@@ -65,41 +72,10 @@ void Documents::parse(const std::string& path) {
         document.setContent(Documents::tokenize(Documents::deleteSpecialChar(content)));
 
         _documents.push_back(document);
+        
     }
 }
 
-std::string Documents::deleteSpecialChar(std::string text) {
-    char specialChar[] = R"(.,();':!?{}""`)";
-    int it = 0;
-
-    for(char c : text) {
-        it++;
-
-        // Puts all the letters in lower case
-        if (isupper(c)) {
-            char lower = c + 32;
-            std::replace( text.begin(), text.end(), c,lower);
-        }
-
-        // Replaces all special characters with a space
-        for(char c_ : specialChar) {
-            if(c == c_){
-                std::replace( text.begin(), text.end(), c,' ');
-            }
-        }
-    }
-
-    return text;
-}
-
-std::vector<std::string> Documents::tokenize(const std::string& text) {
-    std::vector<std::string> tokens;
-
-    std::istringstream iss(text);
-    std::string word;
-    while (iss >> word) {
-        tokens.push_back(word);
-    }
-
-    return tokens;
+std::vector<Document> Documents::getDocuments(){
+    return _documents;
 }

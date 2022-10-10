@@ -12,3 +12,7 @@ std::string Document::toString() {
 
     // return "\n\nDocument" + _number + "\n" + _title + "\n\n" + _author + "\n" + _editor + "\n" + _content;
 }
+
+    std::vector<std::string> Document::getTitle(){
+        return _title;
+    }

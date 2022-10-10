@@ -14,6 +14,7 @@ public:
     Document() = default;;
     std::string toString();
 
+
     std::string getNumber() { return _number; }
     std::vector<std::string> getContent() { return _content; }
 
