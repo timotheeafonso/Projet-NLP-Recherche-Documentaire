@@ -57,22 +57,35 @@ std::map<std::string, double> Query::tfIdf(Forest trees){
     int N=trees.getForest().size();
     std::cout<<"\n";
 
-    for (int i = 0; i < querryToken.size(); i++){ //init df, idf à 0
+    for (int i = 0; i < querryToken.size(); i++) { //init df, idf à 0
         df.push_back(0);
         idf.push_back(0.);
     }
-    for(auto tree: trees.getForest()){
+    for(auto tree: trees.getForest()) {
         std::vector<double> tf;
         
         for(int i = 0; i < querryToken.size(); i++)
         {
-            
-            if(tree.search(querryToken[i])!=0){
-                    df[i]+=1;
+            if (querryToken[i].back() == (char) 42) {
+                std::string subToken = querryToken[i].substr(0, querryToken[i].size()-1);
+                if(tree.jokerSearch(subToken) != 0) {
+                    df[i] += 1;
+                    int occ= tree.jokerSearch(subToken);
+                    tf.push_back(1 + log10(occ));       // Occurence du token i dans le document courant
+                }
+                else {
+                    tf.push_back(0);       // Occurence du token i dans le document courant
+                }
+            }
+            else {
+                if(tree.search(querryToken[i]) != 0){
+                    df[i] += 1;
                     int occ= tree.search(querryToken[i]);
-                    tf.push_back(1+log10(occ));       // Occurence du token i dans le document courant
-            }else{
-                tf.push_back(0);       // O ccurence du token i dans le document courant
+                    tf.push_back(1 + log10(occ));       // Occurence du token i dans le document courant
+                }
+                else {
+                    tf.push_back(0);       // Occurence du token i dans le document courant
+                }
             }
         }
         tfidf.insert(std::pair<std::string, std::vector<double>>(tree.getNumber(), tf)); 

@@ -1,4 +1,7 @@
 #include <iostream>
+#include <vector>
+#include <string>
+#include <string.h>
 #include "Document.hh"
 #include "Documents.hh"
 #include "Query.hh"
