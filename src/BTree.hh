@@ -18,5 +18,5 @@ public:
     void traverse();
     void insert(const Word& word);
     int search(const std::string& word);
-    int jokerSearch(const std::string& word)
+    int jokerSearch(const std::string& word);
 };
