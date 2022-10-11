@@ -14,7 +14,7 @@ public:
     explicit BTree(int minDegree);
 
     void setNumber(std::string number) { _number = std::move(number); };
-
+    std::string getNumber() { return _number; }
     void traverse();
     void insert(const Word& word);
     int search(const std::string& word);
