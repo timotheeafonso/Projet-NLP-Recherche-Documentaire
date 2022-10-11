@@ -197,3 +197,21 @@ int BTreeNode::search(const std::string& word) {
     // Go to the appropriate child
     return _children[i].search(word);
 }
+
+int BTreeNode::jokerSearch(const std::string& word) {
+    // Find the first key greater than or equal to word
+    int i = 0;
+    while (i < _degree && word > _words[i]._word.substr(0, word.size()))
+        i++;
+
+    // If the found key is equal to word, return this node
+    if (_words[i]._word.substr(0, word.size()) == word)
+        return _words[i]._occurence;
+
+    // If key is not found here and this is a leaf node
+    if (_leaf)
+        return 0;
+
+    // Go to the appropriate child
+    return _children[i].jokerSearch(word);
+}

@@ -16,6 +16,13 @@ int BTree::search(const std::string& word) {
         return _root.search(word);
 }
 
+int BTree::jokerSearch(const std::string& word) {
+    if (_root._degree == 0)
+        return 0;
+    else
+        return _root.jokerSearch(word);
+}
+
 void BTree::insert(const Word &word) {
     // If tree is empty
     if (_root._degree == 0) {
