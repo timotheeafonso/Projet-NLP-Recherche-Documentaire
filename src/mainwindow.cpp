@@ -20,34 +20,50 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString str = ui->lineEdit->text();
-    Query query(str.toStdString());
-    std::string str2=query.correctQuery();
-    std::string correct="Showing results for: ";
-    if(str.toStdString()!=str2){
-        correct+=str2;
-        ui->label->setVisible(true);
-        ui->pushButton_2->setVisible(true);
-        ui->pushButton_2->setText(QString::fromStdString(str2));
-    }
+    if(ui->lineEdit->text() != ""){
+        ui->listWidget->clear();
+        std::cout<<"1"<<std::endl;
+        QString str = ui->lineEdit->text();
+        Query query(str.toStdString());
+        std::string str2=query.correctQuery();
+        std::string correct="Showing results for: ";
+        if(str.toStdString()!=str2){
+            correct+=str2;
+            ui->label->setVisible(true);
+            ui->pushButton_2->setVisible(true);
+            ui->pushButton_2->setText(QString::fromStdString(str2));
+        }
 
-    Documents documents;
-    documents.parse("../AP/AP891216");
-    Forest forest;
-    forest.createForest(documents, 3);
-    int i=0;
-    std::string tt;
-    std::vector<std::string> listTop10=query.getTopX(forest,10);
-    for(Document doc: documents.getDocuments()){
-        bool inTopX=false;
-        for(auto nb : listTop10){
-            if(nb==doc.getNumber()){
-                inTopX=true;
+        Documents documents;
+        documents.parse("../AP/AP891216");
+        Forest forest;
+        forest.createForest(documents, 3);
+
+        std::vector<std::string> listTop10=query.getTopX(forest,10);
+        Document ldoc [10]={};
+        for(Document doc: documents.getDocuments()){
+            bool inTopX=false;
+            int index=0;
+            for(auto nb : listTop10){
+
+                if(nb==doc.getNumber()){
+                    inTopX=true;
+                }
+                if(!inTopX){
+                    index++;
+                }
+            }
+            if(inTopX){
+                ldoc[index]=doc;
             }
         }
-        if(inTopX){
-            tt=doc.getNumber();
-            for(std::string title : doc.getTitle()){
+
+        int i=0;
+        std::string tt;
+        for(auto d : ldoc){
+            std::cout<<d.getNumber()<<"\n";
+            tt=d.getNumber();
+            for(std::string title : d.getTitle()){
                 tt+=" "+title;
             }
             QListWidgetItem *newItem = new QListWidgetItem;
