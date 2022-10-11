@@ -48,7 +48,7 @@ void Documents::parse(const std::string& path) {
                 title += "\n";
                 title += titleNode->value();
             }
-
+            document.setOriginalTitle(title);
             deleteSpecialChar(title);
             document.setTitle(tokenize(title));
         }
@@ -71,7 +71,7 @@ void Documents::parse(const std::string& path) {
         for (rapidxml::xml_node<> * contentNode = docNode->first_node("TEXT"); contentNode; contentNode = contentNode->next_sibling()) {
             content += contentNode->value();
         }
-
+        document.setOriginalContent(content);
         deleteSpecialChar(content);
         document.setContent(tokenize(content));
         //document.deleteStopwords(document._content);
