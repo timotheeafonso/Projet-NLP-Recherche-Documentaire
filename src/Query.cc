@@ -47,9 +47,12 @@ std::string Query::correctQuery() {
 std::map<std::string, double> Query::tfIdf(Forest trees){
 
     std::vector<std::string> stopwords = getStopword();
-    deleteSpecialChar(this->_content);    
+    deleteSpecialChar(this->_content);   
+    
     std::vector<std::string> querryToken = tokenize(this->_content);
-
+    deleteStopwords(querryToken);
+    std::cout<<querryToken.size()<<std::endl;
+    stem(querryToken); 
     std::map<std::string, std::vector<double>> tfidf;
     std::map<std::string,double> scores;
     std::vector<int> df;

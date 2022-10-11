@@ -74,7 +74,7 @@ void Documents::parse(const std::string& path) {
         document.setOriginalContent(content);
         deleteSpecialChar(content);
         document.setContent(tokenize(content));
-        //document.deleteStopwords(document._content);
+        document.deleteStopwords(document._content);
         document.stem(document._content);
 
         _documents.push_back(document);

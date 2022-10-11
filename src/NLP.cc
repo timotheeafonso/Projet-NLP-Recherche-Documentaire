@@ -61,15 +61,19 @@ std::vector<std::string> NLP::getStopword(){
 
 void NLP::deleteStopwords(std::vector<std::string>& tokens){
     std::vector<std::string> stopwords = getStopword();
-
+    std::vector<std::string> newTokens;
     for(auto it = std::begin(tokens); it != std::end(tokens); ++it) {
+        bool trouver=false;
         for(const auto& sw : stopwords) {
             if(*it == sw){
-                tokens.erase(it);
-                it--;
+                trouver=true;
             }
         }
+        if(!trouver){
+                newTokens.push_back(*it);
+            }
     }
+    tokens=newTokens;
 }
 
 void NLP::stem(std::vector<std::string>& tokens){
@@ -93,4 +97,5 @@ void NLP::stem(std::vector<std::string>& tokens){
 
         newList.push_back(str);
     }
+    tokens=newList;
 }
