@@ -12,5 +12,6 @@ private:
 public:
     Query(std::string q);
     std::string correctQuery();
-    std::map<std::string, std::vector<double>> tfIdf(Forest trees);
+    std::map<std::string,double> tfIdf(Forest trees);
+    std::vector<std::string> getTopX(Forest trees , int topX);
 };

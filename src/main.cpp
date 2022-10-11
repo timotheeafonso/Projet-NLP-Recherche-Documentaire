@@ -19,8 +19,7 @@ int main(int argc, char *argv[]) {
     std::string q="the job of chief of government";
     Query query(q);
     query.correctQuery();
-    std::map<std::string, std::vector<double>> tfidf=query.tfIdf(forest);
-    
+    query.getTopX(forest,10);
 
     QApplication app{argc, argv};
     MainWindow ui;

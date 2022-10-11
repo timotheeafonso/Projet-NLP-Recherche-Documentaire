@@ -33,17 +33,28 @@ void MainWindow::on_pushButton_clicked()
 
     Documents documents;
     documents.parse("../AP/AP891216");
+    Forest forest;
+    forest.createForest(documents, 3);
     int i=0;
     std::string tt;
+    std::vector<std::string> listTop10=query.getTopX(forest,10);
     for(Document doc: documents.getDocuments()){
-        tt="";
-        for(std::string title : doc.getTitle()){
-            tt+=" "+title;
+        bool inTopX=false;
+        for(auto nb : listTop10){
+            if(nb==doc.getNumber()){
+                inTopX=true;
+            }
         }
-        QListWidgetItem *newItem = new QListWidgetItem;
-        newItem->setText(QString::fromStdString(tt));
-        ui->listWidget->insertItem(i, newItem);
-        i++;
+        if(inTopX){
+            tt=doc.getNumber();
+            for(std::string title : doc.getTitle()){
+                tt+=" "+title;
+            }
+            QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setText(QString::fromStdString(tt));
+            ui->listWidget->insertItem(i, newItem);
+            i++;
+        }
     }
 
 }
@@ -54,6 +65,8 @@ void MainWindow::on_pushButton_2_clicked()
     ui->lineEdit->setText(ui->pushButton_2->text());
     ui->pushButton_2->setVisible(false);
     ui->label->setVisible(false);
+    ui->listWidget->clear();
+    this->on_pushButton_clicked();
 
 }
 

@@ -9,7 +9,17 @@
 #include <map>
 #include "Word.hh"
 #include <math.h>    
-#include <iterator>   
+#include <iterator>  
+#include <vector>
+
+#include <algorithm>
+
+bool cmp(std::pair<std::string, double>& a,
+         std::pair<std::string, double>& b)
+{
+    return a.second > b.second;
+}
+
 
 Query::Query(std::string q){
     this->_content=q;
@@ -34,12 +44,14 @@ std::string Query::correctQuery() {
     return correctQuery;
 }
 
-std::map<std::string, std::vector<double>> Query::tfIdf(Forest trees){
+std::map<std::string, double> Query::tfIdf(Forest trees){
+
     std::vector<std::string> stopwords = getStopword();
     deleteSpecialChar(this->_content);    
     std::vector<std::string> querryToken = tokenize(this->_content);
 
     std::map<std::string, std::vector<double>> tfidf;
+    std::map<std::string,double> scores;
     std::vector<int> df;
     std::vector<double> idf;
     int N=trees.getForest().size();
@@ -75,10 +87,15 @@ std::map<std::string, std::vector<double>> Query::tfIdf(Forest trees){
     
     for (std::pair<std::string, std::vector<double>> element : tfidf) {
         std::vector<double> newVect;
+        double s=0;
         for(int j = 0; j < querryToken.size(); j++){
+            s+=element.second[j]*idf[j];
             newVect.push_back(element.second[j]*idf[j]);
         }
+        s=s/querryToken.size();
         tfidf[element.first] = newVect;
+        scores.insert(std::pair<std::string, double>(element.first, s)); 
+
     }
 
     for (auto it: tfidf) {
@@ -88,5 +105,33 @@ std::map<std::string, std::vector<double>> Query::tfIdf(Forest trees){
         }
         std::cout<<"\n";
     }
-    return tfidf;
+
+
+
+    return scores;
+
 }
+
+
+std::vector<std::string> Query::getTopX(Forest trees,int topX){
+    std::vector<std::string> listTop;
+    std::map<std::string, double> scores=this->tfIdf(trees);
+
+    std::vector<std::pair<std::string, double> > A;
+    for (auto& it : scores) {
+        A.push_back(it);
+    }
+  
+    sort(A.begin(), A.end(), cmp);
+    
+    int t=0;
+    for (auto& it : A) {
+        if(t<topX){
+            listTop.push_back(it.first);
+        }
+        t++;
+    }
+    return listTop;
+
+}
+
