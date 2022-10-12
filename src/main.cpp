@@ -6,8 +6,8 @@
 #include "BTree.hh"
 #include "Word.hh"
 
-/*#include "mainwindow.hh"
-#include "../build/ui_mainwindow.h"*/
+#include "mainwindow.hh"
+#include "../build/ui_mainwindow.h"
 
 int main(int argc, char *argv[]) {
     Documents documents;
@@ -16,12 +16,13 @@ int main(int argc, char *argv[]) {
     Forest forest;
     forest.createForest(documents, 3);
     
-    /*std::string q="Hors in mountin with blue skye";
+    std::string q="the job of chief of government";
     Query query(q);
-    query.correctQuery();*/
-    
-/*    QApplication app{argc, argv};
+    query.correctQuery();
+    query.getTopX(forest,10);
+
+    QApplication app{argc, argv};
     MainWindow ui;
     ui.show();
-    return app.exec();*/
+    return app.exec();
 }
