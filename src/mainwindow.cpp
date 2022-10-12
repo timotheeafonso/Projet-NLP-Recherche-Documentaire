@@ -4,8 +4,8 @@
 #include "Document.hh"
 #include "Documents.hh"
 #include "Query.hh"
- #include <QListWidgetItem> 
-
+#include <QListWidgetItem>
+#include <QTextEdit>
  
  
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
