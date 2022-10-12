@@ -203,15 +203,20 @@ int BTreeNode::jokerSearch(const std::string& word) {
     int i = 0;
 
     while (i < _degree && word > _words[i]._word) {
+
         i++;
     }
 
+    std::cout << _words[i-1]._word;
+
     // If the found key is equal to word, return this node
     if (_words[i]._word.size() >= word.size()) {
-        std::cout << _words[i]._word.substr(0, word.size());
+        /*//std::cout << _words[i]._word.substr(0, word.size());
         if (_words[i]._word.substr(0, word.size()) == word) {
             return _words[i]._occurence;
-        }
+        }*/
+        std::cout <<"OUAIS???????";
+        return 0;
     }
 
     // If key is not found here and this is a leaf node
