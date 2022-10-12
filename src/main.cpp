@@ -9,23 +9,12 @@
 #include "BTree.hh"
 #include "Word.hh"
 
-/*#include "mainwindow.hh"
-#include "../build/ui_mainwindow.h"*/
+#include "mainwindow.hh"
+#include "../build/ui_mainwindow.h"
 
 int main(int argc, char *argv[]) {
-    Documents documents;
-    documents.parse("../AP/AP891216");
-
-    Forest forest;
-    forest.createForest(documents, 3);
-
-    std::string q="democ*";
-    Query query(q);
-    query.correctQuery();
-    query.getTopX(forest,10);
-
-    /*QApplication app{argc, argv};
+    QApplication app{argc, argv};
     MainWindow ui;
     ui.show();
-    return app.exec();*/
+    return app.exec();
 }
