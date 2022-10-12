@@ -26,48 +26,66 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    if(ui->lineEdit->text() != ""){
+    QString str = ui->lineEdit->text();
+    int ind=str.toStdString().size()-1;
+    int choix=0;
+    if(str != ""){
+        if(str.toStdString()[0]=='\"' && str.toStdString()[ind]=='\"'){
+            choix=1;
+            str.remove(0, 1); 
+            str.remove(ind-1, 1); 
+            std::cout<<str.toStdString()<<std::endl;
+        }
         ui->listWidget->clear();
-        std::cout<<"1"<<std::endl;
-        QString str = ui->lineEdit->text();
         Query query(str.toStdString());
         std::string str2=query.correctQuery();
-        std::string correct="Showing results for: ";
         if(str.toStdString()!=str2){
-            correct+=str2;
             ui->label->setVisible(true);
             ui->pushButton_2->setVisible(true);
             ui->pushButton_2->setText(QString::fromStdString(str2));
         }
 
-        
-        std::vector<std::string> listTop10=query.getTopX(forest,10);
-        Document ldoc [10]={};
-        for(Document doc: documents.getDocuments()){
-            bool inTopX=false;
-            int index=0;
-            for(auto nb : listTop10){
-
-                if(nb==doc.getNumber()){
-                    inTopX=true;
-                }
-                if(!inTopX){
-                    index++;
-                }
-            }
-            if(inTopX){
-                ldoc[index]=doc;
-            }
-        }
-
         int i=0;
-        std::string tt;
-        for(auto d : ldoc){
-            std::cout<<d.getNumber()<<"\n";
-            QListWidgetItem *newItem = new QListWidgetItem;
-            newItem->setText(QString::fromStdString(d.getOriginalTitle()));
-            ui->listWidget->insertItem(i, newItem);
-            i++;
+        switch(choix) {
+            case 1:
+                for(Document doc: documents.getDocuments()){
+                    if ((doc.getOriginalContent()).find(str.toStdString()) != std::string::npos ){
+                        QListWidgetItem *newItem = new QListWidgetItem;
+                        newItem->setText(QString::fromStdString(doc.getOriginalTitle()));
+                        ui->listWidget->insertItem(i, newItem);
+                        i++;
+                    } 
+                }
+                break;
+            case 2:
+                // code block
+                break;
+            default:
+                std::vector<std::string> listTop10=query.getTopX(forest,10);
+                Document ldoc [10]={};
+                for(Document doc: documents.getDocuments()){
+                    bool inTopX=false;
+                    int index=0;
+                    for(auto nb : listTop10){
+
+                        if(nb==doc.getNumber()){
+                            inTopX=true;
+                        }
+                        if(!inTopX){
+                            index++;
+                        }
+                    }
+                    if(inTopX){
+                        ldoc[index]=doc;
+                    }
+                }
+                for(auto d : ldoc){
+                    std::cout<<d.getNumber()<<"\n";
+                    QListWidgetItem *newItem = new QListWidgetItem;
+                    newItem->setText(QString::fromStdString(d.getOriginalTitle()));
+                    ui->listWidget->insertItem(i, newItem);
+                    i++;
+                }
         }
     }
 
