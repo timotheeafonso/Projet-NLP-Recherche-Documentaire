@@ -24,4 +24,5 @@ public:
     void traverse();
     int wordExist(const Word& word);
     int search(const std::string & word);
+    int jokerSearch(const std::string & word);
 };
