@@ -52,6 +52,7 @@ void MainWindow::on_pushButton_clicked()
             // std::cout<<str.toStdString()<<std::endl;
         }
         ui->listWidget->clear();
+        
         Query query(str.toStdString());
         std::string str2=query.correctQuery();
         if(str.toStdString()!=str2){
@@ -61,21 +62,30 @@ void MainWindow::on_pushButton_clicked()
         }
 
         int i=0;
-        switch(choix) {
-            case 1:
+        if(choix==1){
+                std::string lowerQuerry= str.toStdString();
+                for(char c : lowerQuerry){
+                    if (isupper(c)){
+                        char lower = c + 32;
+                        std::replace(lowerQuerry.begin(), lowerQuerry.end(), c, lower);
+                    }
+                }
                 for(Document doc: documents.getDocuments()){
-                    if ((doc.getOriginalContent()).find(str.toStdString()) != std::string::npos ){
+                    std::string lowerContent=doc.getOriginalContent();
+                     for(char c : lowerContent){
+                        if (isupper(c)){
+                            char lower = c + 32;
+                            std::replace(lowerContent.begin(), lowerContent.end(), c, lower);
+                        }
+                     }
+                    if ((lowerContent).find(lowerQuerry) != std::string::npos ){
                         QListWidgetItem *newItem = new QListWidgetItem;
                         newItem->setText(QString::fromStdString(doc.getOriginalTitle()));
                         ui->listWidget->insertItem(i, newItem);
                         i++;
                     } 
                 }
-                break;
-            case 2:
-                // code block
-                break;
-            default:
+        }else{
                 std::vector<std::string> listTop10=query.getTopX(forest,10);
                 Document ldoc [10]={};
                 for(Document doc: documents.getDocuments()){
