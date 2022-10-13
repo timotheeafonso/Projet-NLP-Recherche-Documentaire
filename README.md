@@ -4,6 +4,8 @@
 
 Le script project.sh permet de directement compiler et executer le programme.
 
+> sh ./project.sh
+
 ## Par commandes
 
 Dans le cas où le script ne fonctionnerait pas, voici les commandes à exécuter :
