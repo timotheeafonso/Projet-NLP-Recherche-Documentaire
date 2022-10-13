@@ -88,6 +88,7 @@ void MainWindow::on_pushButton_clicked()
                     } 
                 }
         }else{
+                choix=0;
                 std::vector<std::string> listTop10=query.getTopX(forest,10);
                 Document ldoc [10]={};
                 for(Document doc: documents.getDocuments()){
