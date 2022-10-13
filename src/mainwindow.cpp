@@ -31,9 +31,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         closedir (dir);
     }
 
-    documents.parse("../AP/AP891216");
     forest.createForest(documents, 3);
-
 }
 
 MainWindow::~MainWindow()
@@ -130,7 +128,6 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     QLabel *author;
     QWidget *centralwidget2;
     QWidget *verticalLayoutWidget2;
-    QVBoxLayout *verticalLayout2;
 
     centralwidget2 = new QWidget();
     centralwidget2->setObjectName(QString::fromUtf8("Window 2"));
