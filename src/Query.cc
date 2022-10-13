@@ -51,23 +51,23 @@ std::map<std::string, double> Query::tfIdf(Forest trees){
     
     std::vector<std::string> querryToken = tokenize(this->_content);
     deleteStopwords(querryToken);
-    std::cout<<querryToken.size()<<std::endl;
+    // std::cout<<querryToken.size()<<std::endl;
     stem(querryToken); 
     std::map<std::string, std::vector<double>> tfidf;
     std::map<std::string,double> scores;
     std::vector<int> df;
     std::vector<double> idf;
     int N=trees.getForest().size();
-    std::cout<<"\n";
+    // std::cout<<"\n";
 
-    for (int i = 0; i < querryToken.size(); i++) { //init df, idf à 0
+    for (size_t i = 0; i < querryToken.size(); i++) { //init df, idf à 0
         df.push_back(0);
         idf.push_back(0.);
     }
     for(auto tree: trees.getForest()) {
         std::vector<double> tf;
         
-        for(int i = 0; i < querryToken.size(); i++)
+        for(size_t i = 0; i < querryToken.size(); i++)
         {
             if (querryToken[i].back() == (char) 42) {
                 std::string subToken = querryToken[i].substr(0, querryToken[i].size()-1);
@@ -93,18 +93,18 @@ std::map<std::string, double> Query::tfIdf(Forest trees){
         }
         tfidf.insert(std::pair<std::string, std::vector<double>>(tree.getNumber(), tf)); 
     }
-    std::cout<<"\n\n";
-    for(int i = 0; i < querryToken.size(); i++){
+    // std::cout<<"\n\n";
+    for(size_t i = 0; i < querryToken.size(); i++){
         if(df[i]!=0){
             idf[i]=log10(N/df[i]); // Occurence du token i dans les documents
-            std::cout<<querryToken[i]<<" : "<<idf[i]<<"\n";
+            // std::cout<<querryToken[i]<<" : "<<idf[i]<<"\n";
         }
     }
     
     for (std::pair<std::string, std::vector<double>> element : tfidf) {
         std::vector<double> newVect;
         double s=0;
-        for(int j = 0; j < querryToken.size(); j++){
+        for(size_t j = 0; j < querryToken.size(); j++){
             s+=element.second[j]*idf[j];
             newVect.push_back(element.second[j]*idf[j]);
         }
@@ -114,13 +114,13 @@ std::map<std::string, double> Query::tfIdf(Forest trees){
 
     }
 
-    for (auto it: tfidf) {
+    /*for (auto it: tfidf) {
         std::cout<<it.first<<" : ";
         for(int i = 0; i < it.second.size(); i++){
             std::cout<<querryToken[i]<<"("<<it.second[i]<<"), ";
         }
         std::cout<<"\n";
-    }
+    }*/
 
 
 

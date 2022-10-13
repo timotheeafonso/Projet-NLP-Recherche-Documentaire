@@ -11,7 +11,7 @@ void Forest::createForest(Documents& documents, const int& order) {
             tree.insert(Word(word));
         }
 
-        tree.traverse();
+        // tree.traverse();
         _forest.push_back(tree);
     }
 }

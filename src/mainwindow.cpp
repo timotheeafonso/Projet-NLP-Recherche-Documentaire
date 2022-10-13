@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         while ((diread = readdir(dir)) != nullptr) {
             if(diread->d_name[0]=='A'){
                 std::string file=path+"/"+diread->d_name;
-                std::cout<<file<<std::endl;
+                // std::cout<<file<<std::endl;
                 documents.parse(file);
             }
 
@@ -49,7 +49,7 @@ void MainWindow::on_pushButton_clicked()
             choix=1;
             str.remove(0, 1); 
             str.remove(ind-1, 1); 
-            std::cout<<str.toStdString()<<std::endl;
+            // std::cout<<str.toStdString()<<std::endl;
         }
         ui->listWidget->clear();
         Query query(str.toStdString());
@@ -95,7 +95,7 @@ void MainWindow::on_pushButton_clicked()
                     }
                 }
                 for(auto d : ldoc){
-                    std::cout<<d.getNumber()<<"\n";
+                    // std::cout<<d.getNumber()<<"\n";
                     QListWidgetItem *newItem = new QListWidgetItem;
                     newItem->setText(QString::fromStdString(d.getOriginalTitle()));
                     ui->listWidget->insertItem(i, newItem);
