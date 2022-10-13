@@ -43,7 +43,7 @@ void MainWindow::on_pushButton_clicked()
 {
     QString str = ui->lineEdit->text();
     int ind=str.toStdString().size()-1;
-    int choix=0;
+    choix=0;
     if(str != ""){
         if(str.toStdString()[0]=='\"' && str.toStdString()[ind]=='\"'){
             choix=1;
@@ -187,7 +187,7 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
 
     
     
-
+    if(choix==1){
     QTextCharFormat fmt;
     fmt.setBackground(Qt::gray);
 
@@ -195,7 +195,9 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     cursor.setPosition(begin[ui->listWidget->row(item)], QTextCursor::MoveAnchor);
     cursor.setPosition(begin[ui->listWidget->row(item)]+end[ui->listWidget->row(item)], QTextCursor::KeepAnchor);
     cursor.setCharFormat(fmt);
+    }
     centralwidget2->show();
+    
 
 }
 

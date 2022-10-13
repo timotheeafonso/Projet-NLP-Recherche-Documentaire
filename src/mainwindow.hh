@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
     Forest forest;
     std::vector<int> begin;
     std::vector<int> end;
+    int choix;
 
 public:
     MainWindow(QWidget *parent = nullptr);
