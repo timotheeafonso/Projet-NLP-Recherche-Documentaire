@@ -79,8 +79,8 @@ void MainWindow::on_pushButton_clicked()
                         }
                      }
                     if ((lowerContent).find(lowerQuerry) != std::string::npos ){
-                        begin=(lowerContent).find(lowerQuerry);
-                        end=str.toStdString().size();
+                        begin.push_back((lowerContent).find(lowerQuerry));
+                        end.push_back(str.toStdString().size());
                         QListWidgetItem *newItem = new QListWidgetItem;
                         newItem->setText(QString::fromStdString(doc.getOriginalTitle()));
                         ui->listWidget->insertItem(i, newItem);
@@ -192,8 +192,8 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     fmt.setBackground(Qt::gray);
 
     QTextCursor cursor(text->document());
-    cursor.setPosition(begin, QTextCursor::MoveAnchor);
-    cursor.setPosition(begin+end, QTextCursor::KeepAnchor);
+    cursor.setPosition(begin[ui->listWidget->row(item)], QTextCursor::MoveAnchor);
+    cursor.setPosition(begin[ui->listWidget->row(item)]+end[ui->listWidget->row(item)], QTextCursor::KeepAnchor);
     cursor.setCharFormat(fmt);
     centralwidget2->show();
 

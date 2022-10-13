@@ -15,8 +15,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     Documents documents;
     Forest forest;
-    int begin;
-    int end;
+    std::vector<int> begin;
+    std::vector<int> end;
 
 public:
     MainWindow(QWidget *parent = nullptr);
