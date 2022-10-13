@@ -1,16 +1,24 @@
 # Projet-Recherche-Documentaire
 
-mkdir build
+## Par script
 
-cd build
+Le script project.sh permet de directement compiler et executer le programme.
 
-qmake -project ../src/
+## Par commandes
 
-Ajouter la ligne suivante au fichier build.pro:   
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+Dans le cas où le script ne fonctionnerait pas, voici les commandes à exécuter :
 
-qmake
+> mkdir build
 
-make
+> cd build
 
-./build
+> qmake -project ../src/
+
+Ajouter la ligne suivante au fichier build.pro :   
+> greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+> qmake
+
+> make
+
+> ./build
