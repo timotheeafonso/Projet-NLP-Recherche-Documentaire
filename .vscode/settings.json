@@ -83,6 +83,7 @@
         "variant": "cpp",
         "__nullptr": "cpp",
         "__split_buffer": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "filesystem": "cpp"
     }
 }

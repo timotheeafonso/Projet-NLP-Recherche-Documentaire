@@ -13,7 +13,7 @@
 
 void Documents::print() {
     for (auto doc : _documents) {
-        std::cout << doc.toString();
+        //std::cout << doc.toString();
     }
 }
 

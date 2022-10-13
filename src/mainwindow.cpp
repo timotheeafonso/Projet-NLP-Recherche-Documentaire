@@ -6,13 +6,30 @@
 #include "Query.hh"
 #include <QListWidgetItem>
 #include <QTextEdit>
- 
- 
+#include <dirent.h>
+#include <string>
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->pushButton_2->setVisible(false);
     ui->label->setVisible(false);
+   
+    std::string path = "../AP";
+
+    DIR *dir; struct dirent *diread;
+
+    if ((dir = opendir("../AP")) != nullptr) {
+        while ((diread = readdir(dir)) != nullptr) {
+            if(diread->d_name[0]=='A'){
+                std::string file=path+"/"+diread->d_name;
+                std::cout<<file<<std::endl;
+                documents.parse(file);
+            }
+
+        }
+        closedir (dir);
+    }
 
     documents.parse("../AP/AP891216");
     forest.createForest(documents, 3);
