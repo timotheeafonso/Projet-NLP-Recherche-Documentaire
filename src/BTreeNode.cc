@@ -120,7 +120,7 @@ void BTreeNode::splitChild(int i, BTreeNode child) {
 
     // Link the new child to this node
     // _children[i+1] = node;
-    if (i+1 > _children.size()-1)
+    if ((size_t) i+1 > _children.size()-1)
         _children.push_back(node);
     else {
         itN = getNodeIterator(i + 1);
@@ -171,8 +171,8 @@ void BTreeNode::traverse() {
 }
 
 int BTreeNode::wordExist(const Word &word) {
-    int i = 0;
-    for (i; i < _degree; ++i) {
+    int i;
+    for (i = 0; i < _degree; ++i) {
         if (word._word == _words[i]._word)
             return i;
     }
