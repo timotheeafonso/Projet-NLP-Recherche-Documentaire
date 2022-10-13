@@ -4,6 +4,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QListWidgetItem> 
 #include "Forest.hh"
+#include "Query.hh"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,6 +15,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     Documents documents;
     Forest forest;
+    int begin;
+    int end;
 
 public:
     MainWindow(QWidget *parent = nullptr);
